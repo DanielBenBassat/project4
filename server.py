@@ -209,6 +209,17 @@ def main():
 
 
 if __name__ == "__main__":
+    assert isinstance(DEFAULT_URL, str)
+    assert isinstance(WEBROOT, str), "WEBROOT should be a string"
+    assert isinstance(PORT, int)
+    assert isinstance(IP, str)
+    assert isinstance(REDIRECTION_DICTIONARY, dict)
+    assert isinstance(FILES_TYPES, dict)
+    assert isinstance(ERR_PAGE_NOT_FOUND, bytes)
+    assert isinstance(ERR_BAD_REQUEST, bytes)
+    assert isinstance(FORBIDDEN_RESPONSE, bytes)
+    assert isinstance(ERR0R_500_RESPONSE, bytes)
+
     if not os.path.isdir(LOG_DIR):
         os.makedirs(LOG_DIR)
     logging.basicConfig(format=LOG_FORMAT, filename=LOG_FILE, level=LOG_LEVEL)
