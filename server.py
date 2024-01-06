@@ -219,6 +219,9 @@ if __name__ == "__main__":
     assert isinstance(ERR_BAD_REQUEST, bytes)
     assert isinstance(FORBIDDEN_RESPONSE, bytes)
     assert isinstance(ERR0R_500_RESPONSE, bytes)
+    request1 = """GET / HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: keep-alive\r\nCache-Control: max-age=0\r\nsec-ch-ua: "Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"\r\nsec-ch-ua-mobile: ?0\r\nsec-ch-ua-platform: "Windows"\r\nUpgrade-Insecure-Requests: 1\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\r\nSec-Fetch-Site: none\r\nSec-Fetch-Mode: navigate\r\nSec-Fetch-User: ?1\r\nSec-Fetch-Dest: document\r\nAccept-Encoding: gzip, deflate, br\r\nAccept-Language: he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7\r\n\r\n'
+    """
+    assert validate_http_request(request1) == (True, "/")
 
     if not os.path.isdir(LOG_DIR):
         os.makedirs(LOG_DIR)
