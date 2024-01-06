@@ -6,14 +6,48 @@
  other utilities, for educational purpose
  Usage: Fill the missing functions and constants
 """
-# TO DO: import modules
 
-# TO DO: set constants
 
+# TODO: import modules
+import socket
+import logging
+import os
+# TODO: set constants
+
+LOG_FORMAT = '%(levelname)s | %(asctime)s | %(message)s'
+LOG_LEVEL = logging.DEBUG
+LOG_DIR = 'log'
+LOG_FILE = LOG_DIR + '/server.log'
+
+DEFAULT_URL = r"index.html"
+FILES_TYPES = {
+    "html": "text/html;charset=utf-8",
+    "jpg": "image/jpeg",
+    "css": "text/css",
+    "js": "text/javascript; charset=UTF-8",
+    "txt":"text/plain",
+    "ico":"image/x-icon",
+    "gif":"image/jpeg",
+    "png":"image/png"
+}
+ERR_BAD_REQUEST = "400 BAD REQUEST"
+ERR_PAGE_NOT_FOUND = "404 PAGE NOT FOUND"
 QUEUE_SIZE = 10
 IP = '0.0.0.0'
 PORT = 80
 SOCKET_TIMEOUT = 2
+
+REDIRECTION_DICTIONARY = (
+    "CSS/doremon.css",
+    "imgs/abstract.jpg",
+    "imgs/favicon.ico",
+    "imgs/loading.gif",
+    "js/box.js",
+    "js/jquery.min.js",
+    "js/submit.js",
+    "uploads/",  # Added trailing slash to indicate a folder
+    "index.html",
+)
 
 
 def get_file_data(file_name):
@@ -33,27 +67,31 @@ def handle_client_request(resource, client_socket):
     :return: None
     """
     """ """
-    # TO DO : add code that given a resource (URL and parameters) generates
+    # TODO: add code that given a resource (URL and parameters) generates
     # the proper response
-    if resource == '':
-        uri = DEFAULT_URL
+    if resource == '' or resource == '/':
+        url = DEFAULT_URL
     else:
-        uri = resource
+        url = resource
 
-    # TO DO: check if URL had been redirected, not available or other error
+    # TODO: check if url had been redirected, not available or other error
     # code. For example:
     if url in REDIRECTION_DICTIONARY:
         pass
-        # TO DO: send 302 redirection response
+    else:
+        return ERR_PAGE_NOT_FOUND
 
-    # TO DO: extract requested file tupe from URL (html, jpg etc)
+        # TODO: send 302 redirection response
+
+    # TODO: extract requested file tupe from URL (html, jpg etc)
+    file_type=
     if file_type == 'html':
-        http_header =  # TO DO: generate proper HTTP header
+        http_header = "" # TODO: generate proper HTTP header
     elif file_type == 'jpg':
-        http_header =  # TO DO: generate proper jpg header
-    # TO DO: handle all other headers
+        http_header =""  # TODO: generate proper jpg header
+    # TODO: handle all other headers
 
-    # TO DO: read the data from the file
+    # TODO: read the data from the file
     data = get_file_data(filename)
     # http_header should be encoded before sended
     # data encoding depends on its content. text should be encoded, while files shouldn't
@@ -69,7 +107,30 @@ def validate_http_request(request):
     :return: a tuple of (True/False - depending if the request is valid,
     the requested resource )
     """
-    # TO DO: write function
+    is_valid = True
+    if request[0:4] != "GET ":
+        is_valid = False
+
+    url_start_index = 4
+    url_end_index = request.find(" ", url_start_index)
+    if url_end_index == -1:
+        is_valid = False
+
+    url = request[url_start_index:url_end_index]
+    if url == "":
+        is_valid = False
+
+    print(url)
+    if request[url_end_index + 1:url_end_index + 9] != "HTTP/1.1":
+        is_valid = False
+
+        #if request[9:13] != "\r\n":
+        is_valid = False
+
+    if not is_valid:
+        url = ERR_BAD_REQUEST
+
+    return (is_valid, url)
 
 
 def handle_client(client_socket):
@@ -81,16 +142,18 @@ def handle_client(client_socket):
     """
     print('Client connected')
     while True:
-        # TO DO: insert code that receives client request
-        # ...
+        # TODO: insert code that receives client request
+
+        client_request = client_socket.recv(1024).decode()
         valid_http, resource = validate_http_request(client_request)
         if valid_http:
             print('Got a valid HTTP request')
-            handle_client_request(resource, client_socket)
+            logging.debug(resource)
+            #handle_client_request(resource, client_socket)
         else:
             print('Error: Not a valid HTTP request')
             break
-    print('Closing connection')
+    #print('Closing connection')
 
 
 def main():
@@ -118,5 +181,10 @@ def main():
 
 
 if __name__ == "__main__":
+    if not os.path.isdir(LOG_DIR):
+        os.makedirs(LOG_DIR)
+    logging.basicConfig(format=LOG_FORMAT, filename=LOG_FILE, level=LOG_LEVEL)
+
     # Call the main handler function
+    #Http://127.0.0.1:80
     main()
