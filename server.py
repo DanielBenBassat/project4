@@ -210,7 +210,7 @@ def main():
 
 if __name__ == "__main__":
     assert isinstance(DEFAULT_URL, str)
-    assert isinstance(WEBROOT, str), "WEBROOT should be a string"
+    assert isinstance(WEBROOT, str)
     assert isinstance(PORT, int)
     assert isinstance(IP, str)
     assert isinstance(REDIRECTION_DICTIONARY, dict)
