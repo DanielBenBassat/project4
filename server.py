@@ -23,12 +23,15 @@ SOCKET_TIMEOUT = 2
 ERR_BAD_REQUEST = b'HTTP/1.1 400 BAD REQUEST\r\n'
 ERR_PAGE_NOT_FOUND = b'HTTP/1.1 404 Not Found\r\n'
 
-FOLDER_WEBROOT = r"C:/work/cyber/p4/webroot"
-FILES_IN_WEBROOT = [r"/css/doremon.css", r"/imgs/abstract.jpg", r"/imgs/favicon.ico",
-                    r"/imgs/loading.gif", r"/js/box.js", r"/js/jquery.min.js",
-                    r"/js/submit.js", r"/index.html"]
+FORBIDDEN_URL = "/forbidden"
+FORBIDDEN_RESPONSE = b'HTTP/1.1 403 Forbidden\r\n'
+ERROR_500_URL = "/error"
+ERR0R_500_RESPONSE = b'HTTP/1.1 500 INTERNAL SERVER ERROR\r\n'
 
-DEFAULT_URL = r"C:/work/cyber/p4/webroot/index.html"
+
+DEFAULT_URL = r"/index.html"
+WEBROOT = r"C:/work/cyber/p4/webroot"
+
 
 FILES_TYPES = {
     "html": "text/html;charset=utf-8",
@@ -40,7 +43,7 @@ FILES_TYPES = {
     "gif": "image/jpeg",
     "png": "image/png"}
 
-REDIRECTION_DICTIONARY = {}
+REDIRECTION_DICTIONARY = {"/move": "/"}
 
 
 def get_file_data(file_name):
@@ -54,6 +57,7 @@ def get_file_data(file_name):
     return data
 
 
+
 def handle_client_request(resource, client_socket):
     """
     Check the required resource, generate proper HTTP response and send
@@ -63,36 +67,46 @@ def handle_client_request(resource, client_socket):
     :return: None
     """
 
-    # TODO: add code that given a resource (URL and parameters) generates
-    # the proper response
+    if resource in REDIRECTION_DICTIONARY:
+        # if resource in REDIRECTION_DICTIONARY send 302 redirection response
+        response = b'HTTP/1.1 302 Found\r\n'
+        response += b'Location: ' + REDIRECTION_DICTIONARY[resource].encode() + b'\r\n\r\n'
+        client_socket.sendall(response)
+        logging.debug(response)
+        return
+    if resource == FORBIDDEN_URL:
+        # SEND FORBIDDEN 403 RESPONSE
+        client_socket.send(FORBIDDEN_RESPONSE)
+        return
+    if resource == ERROR_500_URL:
+        # SEND ERROR 500 RESPONSE
+        client_socket.send(ERR0R_500_RESPONSE)
+        return
+
+
+
     if resource == '/' or resource == '':
         url = DEFAULT_URL
-    else:
+    elif os.path.exists(WEBROOT + resource):
+        # check if file in webroot
         url = resource
-        if url in FILES_IN_WEBROOT:
-            url = FOLDER_WEBROOT + url
-        else:
-            # send 404 not found
-            client_socket.send(ERR_PAGE_NOT_FOUND)
-            logging.debug(ERR_PAGE_NOT_FOUND)
-            return
+    else:
+        # send 404 not found
+        client_socket.send(ERR_PAGE_NOT_FOUND)
+        logging.debug(ERR_PAGE_NOT_FOUND)
+        return
 
-    # TODO: check if URL had been redirected, not available or other error
-    if url in REDIRECTION_DICTIONARY:
-        pass
-        # TODO: send 302 redirection response
-
-    # find type
+    # find type and make content type header
     url_list = url.split(".")
     file_type = url_list[-1]
     content_type = b'Content-Type: ' + FILES_TYPES[file_type].encode() + b'\r\n'
 
     # read the data from the file and make content length header
-    data = get_file_data(url)
-    content_length = b'Content-Length: ' + str(len(data)).encode("utf-8") + b'\r\n\r\n'
+    filename = WEBROOT + url
+    data = get_file_data(filename)
+    content_length = b'Content-Length: ' + str(len(data)).encode() + b'\r\n\r\n'
 
     http_header = b"HTTP/1.1 200 OK\r\n" + content_type + content_length
-
     http_response = http_header + data
     client_socket.send(http_response)
     logging.debug(http_header)
@@ -139,10 +153,16 @@ def handle_client(client_socket):
     """
     print('Client connected')
     while True:
-        # TODO: insert code that receives client request
-        client_request = client_socket.recv(1024).decode()
+        client_request = client_socket.recv(1)
+        while True:
+            if b'\r\n\r\n' in client_request or client_request == b'':
+                break
+            client_request += client_socket.recv(1)
+        client_request = client_request.decode()
+
         valid_http, resource = validate_http_request(client_request)
         if valid_http:
+            print(resource)
             logging.debug('Got a valid HTTP request')
             logging.debug("url: " + resource)
             handle_client_request(resource, client_socket)
@@ -150,7 +170,6 @@ def handle_client(client_socket):
             # send 400 bad request
             client_socket.send(resource)
             logging.debug('Error: Not a valid HTTP request')
-
             break
     print('Closing connection')
 
