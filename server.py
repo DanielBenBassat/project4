@@ -3,7 +3,6 @@
  Author: Daniel Ben-Bassat
  Purpose: Ex. 4- HTTP server
 """
-
 import socket
 import logging
 import os
@@ -52,10 +51,12 @@ def get_file_data(file_name):
     :param file_name: the name of the file
     :return: the file data in bites
     """
-    with open(file_name, 'rb') as file:
-        data = file.read()
+    try:
+        with open(file_name, 'rb') as file:
+            data = file.read()
+    except FileNotFoundError:
+        data = ERR_PAGE_NOT_FOUND
     return data
-
 
 
 def handle_client_request(resource, client_socket):
@@ -66,7 +67,6 @@ def handle_client_request(resource, client_socket):
     :param client_socket: a socket for the communication with the client
     :return: None
     """
-
     if resource in REDIRECTION_DICTIONARY:
         # if resource in REDIRECTION_DICTIONARY send 302 redirection response
         response = b'HTTP/1.1 302 Found\r\n'
@@ -82,8 +82,6 @@ def handle_client_request(resource, client_socket):
         # SEND ERROR 500 RESPONSE
         client_socket.send(ERR0R_500_RESPONSE)
         return
-
-
 
     if resource == '/' or resource == '':
         url = DEFAULT_URL
@@ -104,13 +102,18 @@ def handle_client_request(resource, client_socket):
     # read the data from the file and make content length header
     filename = WEBROOT + url
     data = get_file_data(filename)
-    content_length = b'Content-Length: ' + str(len(data)).encode() + b'\r\n\r\n'
+    if data != ERR_PAGE_NOT_FOUND:
+        content_length = b'Content-Length: ' + str(len(data)).encode() + b'\r\n\r\n'
 
-    http_header = b"HTTP/1.1 200 OK\r\n" + content_type + content_length
-    http_response = http_header + data
-    client_socket.send(http_response)
-    logging.debug(http_header)
-    return
+        http_header = b"HTTP/1.1 200 OK\r\n" + content_type + content_length
+        http_response = http_header + data
+        client_socket.send(http_response)
+        logging.debug(http_header)
+        return
+    else:
+        # send 404 file not found
+        client_socket.send(data)
+        return
 
 
 def validate_http_request(request):
@@ -122,26 +125,30 @@ def validate_http_request(request):
     the requested resource )
     """
     is_valid = True
-    if request[0:4] != "GET ":
+    try:
+        if request[0:4] != "GET ":
+            is_valid = False
+
+        url_start_index = 4
+        url_end_index = request.find(" ", url_start_index)
+        if url_end_index == -1:
+            is_valid = False
+
+        url = request[url_start_index:url_end_index]
+
+        if request[url_end_index + 1:url_end_index + 9] != "HTTP/1.1":
+            is_valid = False
+
+        if request[url_end_index + 9:url_end_index + 11] != "\r\n":
+            is_valid = False
+
+    except IndexError:
         is_valid = False
 
-    url_start_index = 4
-    url_end_index = request.find(" ", url_start_index)
-    if url_end_index == -1:
-        is_valid = False
-
-    url = request[url_start_index:url_end_index]
-
-    if request[url_end_index + 1:url_end_index + 9] != "HTTP/1.1":
-        is_valid = False
-
-    if request[url_end_index + 9:url_end_index + 11] != "\r\n":
-        is_valid = False
-
-    if not is_valid:
-        url = ERR_BAD_REQUEST
-
-    return is_valid, url
+    finally:
+        if not is_valid:
+            url = ERR_BAD_REQUEST
+        return is_valid, url
 
 
 def handle_client(client_socket):
@@ -153,23 +160,27 @@ def handle_client(client_socket):
     """
     print('Client connected')
     while True:
-        client_request = client_socket.recv(1)
-        while True:
-            if b'\r\n\r\n' in client_request or client_request == b'':
-                break
-            client_request += client_socket.recv(1)
-        client_request = client_request.decode()
+        try:
+            client_request = client_socket.recv(1)
+            while True:
+                if b'\r\n\r\n' in client_request or client_request == b'':
+                    break
+                client_request += client_socket.recv(1)
+            client_request = client_request.decode()
 
-        valid_http, resource = validate_http_request(client_request)
-        if valid_http:
-            print(resource)
-            logging.debug('Got a valid HTTP request')
-            logging.debug("url: " + resource)
-            handle_client_request(resource, client_socket)
-        else:
-            # send 400 bad request
-            client_socket.send(resource)
-            logging.debug('Error: Not a valid HTTP request')
+            valid_http, resource = validate_http_request(client_request)
+            if valid_http:
+                print(resource)
+                logging.debug('Got a valid HTTP request')
+                logging.debug("url: " + resource)
+                handle_client_request(resource, client_socket)
+            else:
+                # send 400 bad request
+                client_socket.send(resource)
+                logging.debug('Error: Not a valid HTTP request')
+                break
+        except socket.error as err:
+            print('received socket exception - ' + str(err))
             break
     print('Closing connection')
 
@@ -181,7 +192,6 @@ def main():
         server_socket.bind((IP, PORT))
         server_socket.listen(QUEUE_SIZE)
         print("Listening for connections on port %d" % PORT)
-
         while True:
             client_socket, client_address = server_socket.accept()
             try:
@@ -203,6 +213,3 @@ if __name__ == "__main__":
         os.makedirs(LOG_DIR)
     logging.basicConfig(format=LOG_FORMAT, filename=LOG_FILE, level=LOG_LEVEL)
     main()
-
-
-# Http://127.0.0.1:80
