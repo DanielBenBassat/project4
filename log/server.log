@@ -1,0 +1,43 @@
+DEBUG | 2024-01-06 11:32:46,943 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:32:46,943 | url: /
+DEBUG | 2024-01-06 11:32:46,944 | b'HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: 25592\r\n\r\n'
+DEBUG | 2024-01-06 11:32:46,964 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:32:46,964 | url: /css/doremon.css
+DEBUG | 2024-01-06 11:32:46,966 | b'HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: 3009\r\n\r\n'
+DEBUG | 2024-01-06 11:32:46,985 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:32:46,985 | url: /js/box.js
+DEBUG | 2024-01-06 11:32:46,986 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 1071\r\n\r\n'
+DEBUG | 2024-01-06 11:32:46,998 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:32:46,999 | url: /js/submit.js
+DEBUG | 2024-01-06 11:32:47,000 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 5838\r\n\r\n'
+DEBUG | 2024-01-06 11:32:49,012 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:32:49,012 | url: /imgs/abstract.jpg
+DEBUG | 2024-01-06 11:32:49,016 | b'HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\nContent-Length: 37193\r\n\r\n'
+DEBUG | 2024-01-06 11:32:51,022 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:32:51,022 | url: /js/jquery.min.js
+DEBUG | 2024-01-06 11:32:51,023 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 96381\r\n\r\n'
+DEBUG | 2024-01-06 11:32:51,048 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:32:51,048 | url: /imgs/favicon.ico
+DEBUG | 2024-01-06 11:32:51,054 | b'HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nContent-Length: 318\r\n\r\n'
+DEBUG | 2024-01-06 11:32:51,747 | Error: Not a valid HTTP request
+DEBUG | 2024-01-06 11:33:43,967 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:33:43,968 | url: /
+DEBUG | 2024-01-06 11:33:43,968 | b'HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: 25592\r\n\r\n'
+DEBUG | 2024-01-06 11:33:43,978 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:33:43,978 | url: /css/doremon.css
+DEBUG | 2024-01-06 11:33:43,979 | b'HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: 3009\r\n\r\n'
+DEBUG | 2024-01-06 11:33:45,990 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:33:45,990 | url: /imgs/abstract.jpg
+DEBUG | 2024-01-06 11:33:45,992 | b'HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\nContent-Length: 37193\r\n\r\n'
+DEBUG | 2024-01-06 11:33:48,002 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:33:48,002 | url: /js/jquery.min.js
+DEBUG | 2024-01-06 11:33:48,004 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 96381\r\n\r\n'
+DEBUG | 2024-01-06 11:33:50,014 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:33:50,015 | url: /js/box.js
+DEBUG | 2024-01-06 11:33:50,016 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 1071\r\n\r\n'
+DEBUG | 2024-01-06 11:33:52,029 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:33:52,029 | url: /js/submit.js
+DEBUG | 2024-01-06 11:33:52,029 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 5838\r\n\r\n'
+DEBUG | 2024-01-06 11:33:52,036 | Got a valid HTTP request
+DEBUG | 2024-01-06 11:33:52,036 | url: /imgs/favicon.ico
+DEBUG | 2024-01-06 11:33:52,037 | b'HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nContent-Length: 318\r\n\r\n'
