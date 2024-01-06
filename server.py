@@ -1,62 +1,27 @@
 """
- HTTP Server
- Author: Daniel Ben-Bassat
- Purpose: Ex. 4- HTTP server
+ HTTP Server Shell
+ Author: Barak Gonen and Nir Dweck
+ Purpose: Provide a basis for Ex. 4
+ Note: The code is written in a simple way, without classes, log files or
+ other utilities, for educational purpose
+ Usage: Fill the missing functions and constants
 """
-import socket
-import logging
-import os
+# TO DO: import modules
 
-# CONSTANTS
-LOG_FORMAT = '%(levelname)s | %(asctime)s | %(message)s'
-LOG_LEVEL = logging.DEBUG
-LOG_DIR = 'log'
-LOG_FILE = LOG_DIR + '/server.log'
-
+# TO DO: set constants
 
 QUEUE_SIZE = 10
 IP = '0.0.0.0'
 PORT = 80
 SOCKET_TIMEOUT = 2
 
-ERR_BAD_REQUEST = b'HTTP/1.1 400 BAD REQUEST\r\n'
-ERR_PAGE_NOT_FOUND = b'HTTP/1.1 404 Not Found\r\n'
-
-FORBIDDEN_URL = "/forbidden"
-FORBIDDEN_RESPONSE = b'HTTP/1.1 403 Forbidden\r\n'
-ERROR_500_URL = "/error"
-ERR0R_500_RESPONSE = b'HTTP/1.1 500 INTERNAL SERVER ERROR\r\n'
-
-
-DEFAULT_URL = r"/index.html"
-WEBROOT = r"C:/work/cyber/p4/webroot"
-
-
-FILES_TYPES = {
-    "html": "text/html;charset=utf-8",
-    "jpg": "image/jpeg",
-    "css": "text/css",
-    "js": "text/javascript; charset=UTF-8",
-    "txt": "text/plain",
-    "ico": "image/x-icon",
-    "gif": "image/jpeg",
-    "png": "image/png"}
-
-REDIRECTION_DICTIONARY = {"/move": "/"}
-
 
 def get_file_data(file_name):
     """
     Get data from file
     :param file_name: the name of the file
-    :return: the file data in bites
+    :return: the file data in a string
     """
-    try:
-        with open(file_name, 'rb') as file:
-            data = file.read()
-    except FileNotFoundError:
-        data = ERR_PAGE_NOT_FOUND
-    return data
 
 
 def handle_client_request(resource, client_socket):
@@ -67,53 +32,33 @@ def handle_client_request(resource, client_socket):
     :param client_socket: a socket for the communication with the client
     :return: None
     """
-    if resource in REDIRECTION_DICTIONARY:
-        # if resource in REDIRECTION_DICTIONARY send 302 redirection response
-        response = b'HTTP/1.1 302 Found\r\n'
-        response += b'Location: ' + REDIRECTION_DICTIONARY[resource].encode() + b'\r\n\r\n'
-        client_socket.sendall(response)
-        logging.debug(response)
-        return
-    if resource == FORBIDDEN_URL:
-        # SEND FORBIDDEN 403 RESPONSE
-        client_socket.send(FORBIDDEN_RESPONSE)
-        return
-    if resource == ERROR_500_URL:
-        # SEND ERROR 500 RESPONSE
-        client_socket.send(ERR0R_500_RESPONSE)
-        return
-
-    if resource == '/' or resource == '':
-        url = DEFAULT_URL
-    elif os.path.exists(WEBROOT + resource):
-        # check if file in webroot
-        url = resource
+    """ """
+    # TO DO : add code that given a resource (URL and parameters) generates
+    # the proper response
+    if resource == '':
+        uri = DEFAULT_URL
     else:
-        # send 404 not found
-        client_socket.send(ERR_PAGE_NOT_FOUND)
-        logging.debug(ERR_PAGE_NOT_FOUND)
-        return
+        uri = resource
 
-    # find type and make content type header
-    url_list = url.split(".")
-    file_type = url_list[-1]
-    content_type = b'Content-Type: ' + FILES_TYPES[file_type].encode() + b'\r\n'
+    # TO DO: check if URL had been redirected, not available or other error
+    # code. For example:
+    if url in REDIRECTION_DICTIONARY:
+        pass
+        # TO DO: send 302 redirection response
 
-    # read the data from the file and make content length header
-    filename = WEBROOT + url
+    # TO DO: extract requested file tupe from URL (html, jpg etc)
+    if file_type == 'html':
+        http_header =  # TO DO: generate proper HTTP header
+    elif file_type == 'jpg':
+        http_header =  # TO DO: generate proper jpg header
+    # TO DO: handle all other headers
+
+    # TO DO: read the data from the file
     data = get_file_data(filename)
-    if data != ERR_PAGE_NOT_FOUND:
-        content_length = b'Content-Length: ' + str(len(data)).encode() + b'\r\n\r\n'
-
-        http_header = b"HTTP/1.1 200 OK\r\n" + content_type + content_length
-        http_response = http_header + data
-        client_socket.send(http_response)
-        logging.debug(http_header)
-        return
-    else:
-        # send 404 file not found
-        client_socket.send(data)
-        return
+    # http_header should be encoded before sended
+    # data encoding depends on its content. text should be encoded, while files shouldn't
+    http_response = http_header.encode() + data
+    client_socket.send(http_response)
 
 
 def validate_http_request(request):
@@ -124,31 +69,7 @@ def validate_http_request(request):
     :return: a tuple of (True/False - depending if the request is valid,
     the requested resource )
     """
-    is_valid = True
-    try:
-        if request[0:4] != "GET ":
-            is_valid = False
-
-        url_start_index = 4
-        url_end_index = request.find(" ", url_start_index)
-        if url_end_index == -1:
-            is_valid = False
-
-        url = request[url_start_index:url_end_index]
-
-        if request[url_end_index + 1:url_end_index + 9] != "HTTP/1.1":
-            is_valid = False
-
-        if request[url_end_index + 9:url_end_index + 11] != "\r\n":
-            is_valid = False
-
-    except IndexError:
-        is_valid = False
-
-    finally:
-        if not is_valid:
-            url = ERR_BAD_REQUEST
-        return is_valid, url
+    # TO DO: write function
 
 
 def handle_client(client_socket):
@@ -160,27 +81,14 @@ def handle_client(client_socket):
     """
     print('Client connected')
     while True:
-        try:
-            client_request = client_socket.recv(1)
-            while True:
-                if b'\r\n\r\n' in client_request or client_request == b'':
-                    break
-                client_request += client_socket.recv(1)
-            client_request = client_request.decode()
-
-            valid_http, resource = validate_http_request(client_request)
-            if valid_http:
-                print(resource)
-                logging.debug('Got a valid HTTP request')
-                logging.debug("url: " + resource)
-                handle_client_request(resource, client_socket)
-            else:
-                # send 400 bad request
-                client_socket.send(resource)
-                logging.debug('Error: Not a valid HTTP request')
-                break
-        except socket.error as err:
-            print('received socket exception - ' + str(err))
+        # TO DO: insert code that receives client request
+        # ...
+        valid_http, resource = validate_http_request(client_request)
+        if valid_http:
+            print('Got a valid HTTP request')
+            handle_client_request(resource, client_socket)
+        else:
+            print('Error: Not a valid HTTP request')
             break
     print('Closing connection')
 
@@ -192,6 +100,7 @@ def main():
         server_socket.bind((IP, PORT))
         server_socket.listen(QUEUE_SIZE)
         print("Listening for connections on port %d" % PORT)
+
         while True:
             client_socket, client_address = server_socket.accept()
             try:
@@ -209,7 +118,5 @@ def main():
 
 
 if __name__ == "__main__":
-    if not os.path.isdir(LOG_DIR):
-        os.makedirs(LOG_DIR)
-    logging.basicConfig(format=LOG_FORMAT, filename=LOG_FILE, level=LOG_LEVEL)
+    # Call the main handler function
     main()
