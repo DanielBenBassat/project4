@@ -1,61 +1,57 @@
 """
- HTTP Server Shell
- Author: Barak Gonen and Nir Dweck
- Purpose: Provide a basis for Ex. 4
- Note: The code is written in a simple way, without classes, log files or
- other utilities, for educational purpose
- Usage: Fill the missing functions and constants
+ HTTP Server
+ Author: Daniel Ben-Bassat
+ Purpose: Ex. 4- HTTP server
 """
 
-
-# TODO: import modules
 import socket
 import logging
 import os
-# TODO: set constants
 
+# CONSTANTS
 LOG_FORMAT = '%(levelname)s | %(asctime)s | %(message)s'
 LOG_LEVEL = logging.DEBUG
 LOG_DIR = 'log'
 LOG_FILE = LOG_DIR + '/server.log'
 
-DEFAULT_URL = r"index.html"
-FILES_TYPES = {
-    "html": "text/html;charset=utf-8",
-    "jpg": "image/jpeg",
-    "css": "text/css",
-    "js": "text/javascript; charset=UTF-8",
-    "txt":"text/plain",
-    "ico":"image/x-icon",
-    "gif":"image/jpeg",
-    "png":"image/png"
-}
-ERR_BAD_REQUEST = "400 BAD REQUEST"
-ERR_PAGE_NOT_FOUND = "404 PAGE NOT FOUND"
+
 QUEUE_SIZE = 10
 IP = '0.0.0.0'
 PORT = 80
 SOCKET_TIMEOUT = 2
 
-REDIRECTION_DICTIONARY = (
-    "CSS/doremon.css",
-    "imgs/abstract.jpg",
-    "imgs/favicon.ico",
-    "imgs/loading.gif",
-    "js/box.js",
-    "js/jquery.min.js",
-    "js/submit.js",
-    "uploads/",  # Added trailing slash to indicate a folder
-    "index.html",
-)
+ERR_BAD_REQUEST = b'HTTP/1.1 400 BAD REQUEST\r\n'
+ERR_PAGE_NOT_FOUND = b'HTTP/1.1 404 Not Found\r\n'
+
+FOLDER_WEBROOT = r"C:/work/cyber/p4/webroot"
+FILES_IN_WEBROOT = [r"/css/doremon.css", r"/imgs/abstract.jpg", r"/imgs/favicon.ico",
+                    r"/imgs/loading.gif", r"/js/box.js", r"/js/jquery.min.js",
+                    r"/js/submit.js", r"/index.html"]
+
+DEFAULT_URL = r"C:/work/cyber/p4/webroot/index.html"
+
+FILES_TYPES = {
+    "html": "text/html;charset=utf-8",
+    "jpg": "image/jpeg",
+    "css": "text/css",
+    "js": "text/javascript; charset=UTF-8",
+    "txt": "text/plain",
+    "ico": "image/x-icon",
+    "gif": "image/jpeg",
+    "png": "image/png"}
+
+REDIRECTION_DICTIONARY = {}
 
 
 def get_file_data(file_name):
     """
     Get data from file
     :param file_name: the name of the file
-    :return: the file data in a string
+    :return: the file data in bites
     """
+    with open(file_name, 'rb') as file:
+        data = file.read()
+    return data
 
 
 def handle_client_request(resource, client_socket):
@@ -66,37 +62,41 @@ def handle_client_request(resource, client_socket):
     :param client_socket: a socket for the communication with the client
     :return: None
     """
-    """ """
+
     # TODO: add code that given a resource (URL and parameters) generates
     # the proper response
-    if resource == '' or resource == '/':
+    if resource == '/' or resource == '':
         url = DEFAULT_URL
     else:
         url = resource
+        if url in FILES_IN_WEBROOT:
+            url = FOLDER_WEBROOT + url
+        else:
+            # send 404 not found
+            client_socket.send(ERR_PAGE_NOT_FOUND)
+            logging.debug(ERR_PAGE_NOT_FOUND)
+            return
 
-    # TODO: check if url had been redirected, not available or other error
-    # code. For example:
+    # TODO: check if URL had been redirected, not available or other error
     if url in REDIRECTION_DICTIONARY:
         pass
-    else:
-        return ERR_PAGE_NOT_FOUND
-
         # TODO: send 302 redirection response
 
-    # TODO: extract requested file tupe from URL (html, jpg etc)
-    file_type=
-    if file_type == 'html':
-        http_header = "" # TODO: generate proper HTTP header
-    elif file_type == 'jpg':
-        http_header =""  # TODO: generate proper jpg header
-    # TODO: handle all other headers
+    # find type
+    url_list = url.split(".")
+    file_type = url_list[-1]
+    content_type = b'Content-Type: ' + FILES_TYPES[file_type].encode() + b'\r\n'
 
-    # TODO: read the data from the file
-    data = get_file_data(filename)
-    # http_header should be encoded before sended
-    # data encoding depends on its content. text should be encoded, while files shouldn't
-    http_response = http_header.encode() + data
+    # read the data from the file and make content length header
+    data = get_file_data(url)
+    content_length = b'Content-Length: ' + str(len(data)).encode("utf-8") + b'\r\n\r\n'
+
+    http_header = b"HTTP/1.1 200 OK\r\n" + content_type + content_length
+
+    http_response = http_header + data
     client_socket.send(http_response)
+    logging.debug(http_header)
+    return
 
 
 def validate_http_request(request):
@@ -117,20 +117,17 @@ def validate_http_request(request):
         is_valid = False
 
     url = request[url_start_index:url_end_index]
-    if url == "":
-        is_valid = False
 
-    print(url)
     if request[url_end_index + 1:url_end_index + 9] != "HTTP/1.1":
         is_valid = False
 
-        #if request[9:13] != "\r\n":
+    if request[url_end_index + 9:url_end_index + 11] != "\r\n":
         is_valid = False
 
     if not is_valid:
         url = ERR_BAD_REQUEST
 
-    return (is_valid, url)
+    return is_valid, url
 
 
 def handle_client(client_socket):
@@ -143,17 +140,19 @@ def handle_client(client_socket):
     print('Client connected')
     while True:
         # TODO: insert code that receives client request
-
         client_request = client_socket.recv(1024).decode()
         valid_http, resource = validate_http_request(client_request)
         if valid_http:
-            print('Got a valid HTTP request')
-            logging.debug(resource)
-            #handle_client_request(resource, client_socket)
+            logging.debug('Got a valid HTTP request')
+            logging.debug("url: " + resource)
+            handle_client_request(resource, client_socket)
         else:
-            print('Error: Not a valid HTTP request')
+            # send 400 bad request
+            client_socket.send(resource)
+            logging.debug('Error: Not a valid HTTP request')
+
             break
-    #print('Closing connection')
+    print('Closing connection')
 
 
 def main():
@@ -184,7 +183,7 @@ if __name__ == "__main__":
     if not os.path.isdir(LOG_DIR):
         os.makedirs(LOG_DIR)
     logging.basicConfig(format=LOG_FORMAT, filename=LOG_FILE, level=LOG_LEVEL)
-
-    # Call the main handler function
-    #Http://127.0.0.1:80
     main()
+
+
+# Http://127.0.0.1:80
