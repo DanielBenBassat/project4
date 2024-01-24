@@ -383,3 +383,164 @@ DEBUG | 2024-01-14 19:35:02,049 | b'HTTP/1.1 404 Not Found\r\n'
 DEBUG | 2024-01-14 19:36:50,383 | Got a valid HTTP request
 DEBUG | 2024-01-14 19:36:50,384 | url: /upload?file-name=liv.jpg
 DEBUG | 2024-01-14 19:36:57,021 | b'HTTP/1.1 404 Not Found\r\n'
+DEBUG | 2024-01-22 21:14:40,903 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:14:40,903 | url: /
+DEBUG | 2024-01-22 21:14:40,932 | b'HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: 25592\r\n\r\n'
+DEBUG | 2024-01-22 21:14:40,952 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:14:40,952 | url: /css/doremon.css
+DEBUG | 2024-01-22 21:14:40,964 | b'HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: 3009\r\n\r\n'
+DEBUG | 2024-01-22 21:14:40,972 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:14:40,973 | url: /js/box.js
+DEBUG | 2024-01-22 21:14:40,991 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 1071\r\n\r\n'
+DEBUG | 2024-01-22 21:14:43,013 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:14:43,014 | url: /imgs/abstract.jpg
+DEBUG | 2024-01-22 21:14:43,020 | b'HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\nContent-Length: 37193\r\n\r\n'
+DEBUG | 2024-01-22 21:14:45,043 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:14:45,043 | url: /js/jquery.min.js
+DEBUG | 2024-01-22 21:14:45,051 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 96381\r\n\r\n'
+DEBUG | 2024-01-22 21:14:47,073 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:14:47,073 | url: /js/submit.js
+DEBUG | 2024-01-22 21:14:47,126 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 5838\r\n\r\n'
+DEBUG | 2024-01-22 21:14:47,140 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:14:47,140 | url: /imgs/favicon.ico
+DEBUG | 2024-01-22 21:14:47,147 | b'HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nContent-Length: 318\r\n\r\n'
+DEBUG | 2024-01-22 21:15:11,391 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:15:11,391 | url: /css/doremon.css
+DEBUG | 2024-01-22 21:15:11,392 | b'HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: 3009\r\n\r\n'
+DEBUG | 2024-01-22 21:15:14,991 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:15:14,991 | url: /
+DEBUG | 2024-01-22 21:15:14,992 | b'HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: 25592\r\n\r\n'
+DEBUG | 2024-01-22 21:15:15,012 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:15:15,013 | url: /css/doremon.css
+DEBUG | 2024-01-22 21:15:15,013 | b'HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: 3009\r\n\r\n'
+DEBUG | 2024-01-22 21:15:17,023 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:15:17,023 | url: /imgs/abstract.jpg
+DEBUG | 2024-01-22 21:15:17,025 | b'HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\nContent-Length: 37193\r\n\r\n'
+DEBUG | 2024-01-22 21:15:19,048 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:15:19,048 | url: /js/jquery.min.js
+DEBUG | 2024-01-22 21:15:19,050 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 96381\r\n\r\n'
+DEBUG | 2024-01-22 21:15:21,053 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:15:21,054 | url: /js/box.js
+DEBUG | 2024-01-22 21:15:21,054 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 1071\r\n\r\n'
+DEBUG | 2024-01-22 21:15:23,076 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:15:23,077 | url: /js/submit.js
+DEBUG | 2024-01-22 21:15:23,078 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 5838\r\n\r\n'
+DEBUG | 2024-01-22 21:15:23,110 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:15:23,110 | url: /imgs/favicon.ico
+DEBUG | 2024-01-22 21:15:23,111 | b'HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nContent-Length: 318\r\n\r\n'
+DEBUG | 2024-01-22 21:16:02,307 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:16:02,308 | url: /upload?file-name=liverpool.png
+DEBUG | 2024-01-22 21:31:08,333 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:08,334 | url: /
+DEBUG | 2024-01-22 21:31:08,335 | b'HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: 25592\r\n\r\n'
+DEBUG | 2024-01-22 21:31:08,357 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:08,357 | url: /css/doremon.css
+DEBUG | 2024-01-22 21:31:08,359 | b'HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: 3009\r\n\r\n'
+DEBUG | 2024-01-22 21:31:08,367 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:08,368 | url: /js/box.js
+DEBUG | 2024-01-22 21:31:08,368 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 1071\r\n\r\n'
+DEBUG | 2024-01-22 21:31:08,374 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:08,374 | url: /js/submit.js
+DEBUG | 2024-01-22 21:31:08,375 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 5838\r\n\r\n'
+DEBUG | 2024-01-22 21:31:11,992 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:11,992 | url: /imgs/favicon.ico
+DEBUG | 2024-01-22 21:31:11,993 | b'HTTP/1.1 200 OK\r\nContent-Type: image/x-icon\r\nContent-Length: 318\r\n\r\n'
+DEBUG | 2024-01-22 21:31:30,429 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:30,429 | url: /
+DEBUG | 2024-01-22 21:31:30,429 | b'HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: 25592\r\n\r\n'
+DEBUG | 2024-01-22 21:31:30,440 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:30,440 | url: /css/doremon.css
+DEBUG | 2024-01-22 21:31:30,441 | b'HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: 3009\r\n\r\n'
+DEBUG | 2024-01-22 21:31:30,447 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:30,447 | url: /js/box.js
+DEBUG | 2024-01-22 21:31:30,448 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 1071\r\n\r\n'
+DEBUG | 2024-01-22 21:31:30,452 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:30,453 | url: /js/submit.js
+DEBUG | 2024-01-22 21:31:30,453 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 5838\r\n\r\n'
+DEBUG | 2024-01-22 21:31:32,464 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:32,464 | url: /imgs/abstract.jpg
+DEBUG | 2024-01-22 21:31:32,471 | b'HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\nContent-Length: 37193\r\n\r\n'
+DEBUG | 2024-01-22 21:31:34,482 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:31:34,482 | url: /js/jquery.min.js
+DEBUG | 2024-01-22 21:31:34,487 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 96381\r\n\r\n'
+DEBUG | 2024-01-22 21:41:10,295 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:41:10,295 | url: /upload?file-name=liverpool.png
+DEBUG | 2024-01-22 21:48:45,008 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:48:45,008 | url: /upload?file-name=liverpool.png
+DEBUG | 2024-01-22 21:48:45,008 | b'HTTP/1.1 404 Not Found\r\n'
+DEBUG | 2024-01-22 21:48:59,444 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:48:59,444 | url: /upload?file-name=liverpool.png
+DEBUG | 2024-01-22 21:48:59,444 | b'HTTP/1.1 404 Not Found\r\n'
+DEBUG | 2024-01-22 21:49:01,581 | Got a valid HTTP request
+DEBUG | 2024-01-22 21:49:01,581 | url: /upload?file-name=liverpool.png
+DEBUG | 2024-01-22 21:49:01,581 | b'HTTP/1.1 404 Not Found\r\n'
+DEBUG | 2024-01-24 17:58:06,440 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:06,441 | url: /
+DEBUG | 2024-01-24 17:58:06,499 | b'HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: 25592\r\n\r\n'
+DEBUG | 2024-01-24 17:58:06,668 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:06,668 | url: /css/doremon.css
+DEBUG | 2024-01-24 17:58:06,688 | b'HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: 3009\r\n\r\n'
+DEBUG | 2024-01-24 17:58:08,702 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:08,702 | url: /imgs/abstract.jpg
+DEBUG | 2024-01-24 17:58:08,704 | b'HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\nContent-Length: 37193\r\n\r\n'
+DEBUG | 2024-01-24 17:58:10,554 | Error: Not a valid HTTP request
+DEBUG | 2024-01-24 17:58:10,564 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:10,564 | url: /js/jquery.min.js
+DEBUG | 2024-01-24 17:58:10,567 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 96381\r\n\r\n'
+DEBUG | 2024-01-24 17:58:12,584 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:12,585 | url: /js/submit.js
+DEBUG | 2024-01-24 17:58:12,646 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 5838\r\n\r\n'
+DEBUG | 2024-01-24 17:58:14,657 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:14,657 | url: /js/box.js
+DEBUG | 2024-01-24 17:58:14,698 | b'HTTP/1.1 200 OK\r\nContent-Type: text/javascript; charset=UTF-8\r\nContent-Length: 1071\r\n\r\n'
+DEBUG | 2024-01-24 17:58:37,789 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:37,789 | url: /calculate-next?num=76
+DEBUG | 2024-01-24 17:58:37,791 | b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 2\r\n\r\n'
+DEBUG | 2024-01-24 17:58:39,806 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:39,807 | url: /imgs/loading.gif
+DEBUG | 2024-01-24 17:58:39,812 | b'HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\nContent-Length: 2812\r\n\r\n'
+DEBUG | 2024-01-24 17:58:40,601 | Error: Not a valid HTTP request
+DEBUG | 2024-01-24 17:58:44,676 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:44,676 | url: /calculate-next?num=76i
+DEBUG | 2024-01-24 17:58:44,677 | b'HTTP/1.1 400 BAD REQUEST\r\n'
+DEBUG | 2024-01-24 17:58:52,588 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:58:52,588 | url: /calculate-next?num=7687654
+DEBUG | 2024-01-24 17:58:52,588 | b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 7\r\n\r\n'
+DEBUG | 2024-01-24 17:59:02,527 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:59:02,527 | url: /calculate-area?height=7&width=8
+DEBUG | 2024-01-24 17:59:02,528 | b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 4\r\n\r\n'
+DEBUG | 2024-01-24 17:59:11,734 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:59:11,734 | url: /calculate-area?height=7%2C7&width=8
+DEBUG | 2024-01-24 17:59:11,735 | b'HTTP/1.1 400 BAD REQUEST\r\n'
+DEBUG | 2024-01-24 17:59:20,218 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:59:20,219 | url: /calculate-area?height=7.7&width=8
+DEBUG | 2024-01-24 17:59:20,219 | b'HTTP/1.1 400 BAD REQUEST\r\n'
+DEBUG | 2024-01-24 17:59:46,503 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:59:46,503 | url: /calculate-area?height=77&width=8
+DEBUG | 2024-01-24 17:59:46,504 | b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 5\r\n\r\n'
+DEBUG | 2024-01-24 17:59:46,581 | Got a valid HTTP request
+DEBUG | 2024-01-24 17:59:46,582 | url: /calculate-area?height=77&width=8
+DEBUG | 2024-01-24 17:59:46,582 | b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 5\r\n\r\n'
+DEBUG | 2024-01-24 18:00:00,555 | Got a valid HTTP request
+DEBUG | 2024-01-24 18:00:00,556 | url: /calculate-area?height=3&width=5
+DEBUG | 2024-01-24 18:00:00,556 | b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n'
+DEBUG | 2024-01-24 18:00:00,737 | Error: Not a valid HTTP request
+DEBUG | 2024-01-24 18:00:11,877 | Got a valid HTTP request
+DEBUG | 2024-01-24 18:00:11,877 | url: /upload?file-name=liverpool.png
+DEBUG | 2024-01-24 18:00:11,877 | b'HTTP/1.1 404 Not Found\r\n'
+DEBUG | 2024-01-24 18:00:30,775 | Got a valid HTTP request
+DEBUG | 2024-01-24 18:00:30,775 | url: /image?image-name=liverpool
+DEBUG | 2024-01-24 18:00:30,776 | b'HTTP/1.1 400 BAD REQUEST\r\n'
+DEBUG | 2024-01-24 18:00:39,692 | Got a valid HTTP request
+DEBUG | 2024-01-24 18:00:39,692 | url: /image?image-name=liverpool.png
+DEBUG | 2024-01-24 18:00:39,706 | b'HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: 13586\r\n\r\n'
+DEBUG | 2024-01-24 18:00:40,735 | Got a valid HTTP request
+DEBUG | 2024-01-24 18:00:40,735 | url: /image?image-name=liverpool.png
+DEBUG | 2024-01-24 18:00:40,736 | b'HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: 13586\r\n\r\n'
+DEBUG | 2024-01-24 18:00:40,780 | Error: Not a valid HTTP request
+DEBUG | 2024-01-24 18:00:55,639 | Got a valid HTTP request
+DEBUG | 2024-01-24 18:00:55,640 | url: /image?image-name=1.png
+DEBUG | 2024-01-24 18:00:55,642 | b'HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: 177777\r\n\r\n'
+DEBUG | 2024-01-24 18:00:56,665 | Got a valid HTTP request
+DEBUG | 2024-01-24 18:00:56,666 | url: /image?image-name=1.png
+DEBUG | 2024-01-24 18:00:56,667 | b'HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: 177777\r\n\r\n'

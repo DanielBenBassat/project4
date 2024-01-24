@@ -6,6 +6,7 @@
 import socket
 import logging
 import os
+import re
 
 # CONSTANTS
 LOG_FORMAT = '%(levelname)s | %(asctime)s | %(message)s'
@@ -60,6 +61,12 @@ def get_file_data(file_name):
 
 
 def calculate_next(resource, client_socket):
+    """
+    Extracts a number from the resource, add 1 to the number and sends response.
+    :param resource: URL.
+    :param client_socket: socket connected to the client.
+    :return: None (sends a response directly to the client)
+    """
     num = resource[20:]
     if num.isdigit():
         num = int(num)
@@ -79,21 +86,27 @@ def calculate_next(resource, client_socket):
 
 
 def calculate_area(resource, client_socket):
+    """
+    Extracts height and width values from the resource, calculates the area, and sends a response.
+    :param resource: URL.
+    :param client_socket: a socket connected to the client.
+    :return: None (sends a response directly to the client)
+    """
     try:
         resource = resource[16:]
-        list = []
-        value= ""
+        param = []
+        value = ""
         for i in range(0, len(resource)):
             if resource[i] == "=":
                 i = i+1
-                while i<len(resource) and resource[i] != '&' :
+                while i < len(resource) and resource[i] != '&':
                     value += resource[i]
                     i = i + 1
-                list.append(value)
+                param.append(value)
                 value = ""
-        if len(list) == 2:
-            height = int(list[0])
-            width = int(list[1])
+        if len(param) == 2:
+            height = int(param[0])
+            width = int(param[1])
             area = str(height*width/2)
             content_type = b'Content-Type: ' + "text/plain".encode() + b'\r\n'
             content_length = b'Content-Length: ' + str(len(area)).encode() + b'\r\n\r\n'
@@ -113,7 +126,14 @@ def calculate_area(resource, client_socket):
     finally:
         return
 
+
 def get_image(resource, client_socket):
+    """
+    find the image file from upload folder and sends it as a response.
+    :param resource: URL
+    :param client_socket: socket connected to the client.
+    :return: None (sends a response directly to the client)
+    """
     try:
         start_name = resource.find('=')
         file_name = resource[start_name+1:]
@@ -138,10 +158,18 @@ def get_image(resource, client_socket):
         logging.debug(ERR_BAD_REQUEST)
 
 
-
-def upload(resource, client_socket):
+def upload(content_length, resource, client_socket):
+    """
+    Receives a file from a client and saves it in upload folder.
+    :param content_length: The expected length of the file data in bytes.
+    :param resource: URL.
+    :param client_socket: socket connected to the client.
+    :return: None (sends a response directly to the client)
+    """
     try:
-        data = client_socket.recv(1677777)
+        data = client_socket.recv(1)
+        while len(data) < content_length:
+            data += client_socket.recv(1)
         start_name = resource.find('=')
         file_name = resource[start_name+1:]
         full_file_path = os.path.join(UPLOAD_PATH, file_name)  # Combine folder and file name
@@ -154,7 +182,6 @@ def upload(resource, client_socket):
         logging.debug(ERR_BAD_REQUEST)
     finally:
         return
-
 
 
 def handle_client_request(resource, client_socket):
@@ -171,8 +198,7 @@ def handle_client_request(resource, client_socket):
     if resource[0:16] == "/calculate-area?":
         calculate_area(resource, client_socket)
         return
-    if resource[0:18] == "/upload?file-name=":
-        upload(resource, client_socket)
+
     if resource[0:18] == "/image?image-name=":
         get_image(resource, client_socket)
         return
@@ -235,13 +261,14 @@ def validate_http_request(request):
     the requested resource )
     """
     is_valid = False
+    url = ""
     try:
 
         if request[0:4] == "GET ":
             is_valid = True
             url_start_index = 4
         elif request[0:5] == "POST ":
-            is_valid= True
+            is_valid = True
             url_start_index = 5
         else:
             is_valid = False
@@ -287,6 +314,17 @@ def handle_client(client_socket):
 
             valid_http, resource = validate_http_request(client_request)
             if valid_http:
+                # if post request find content length header and check if to call upload function
+                if client_request[0:4] == "POST":
+                    content_length_match = re.search(r'Content-Length: (\d+)', client_request)
+                    if content_length_match:
+                        content_length = int(content_length_match.group(1))
+                    else:
+                        client_socket.send(ERR_BAD_REQUEST)
+                        logging.debug(ERR_BAD_REQUEST)
+                        return
+                    if resource[0:18] == "/upload?file-name=":
+                        upload(content_length, resource, client_socket)
                 print(resource)
                 logging.debug('Got a valid HTTP request')
                 logging.debug("url: " + resource)
